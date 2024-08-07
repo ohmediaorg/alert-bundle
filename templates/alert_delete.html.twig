@@ -1,0 +1,10 @@
+{% extends '@OHMediaBackend/form.html.twig' %}
+
+{% set form_title = 'Delete ' ~ alert %}
+
+{% block breadcrumbs %}
+{{ bootstrap_breadcrumbs(
+  bootstrap_breadcrumb(bootstrap_icon('exclamation-triangle-fill') ~ ' Alerts', 'alert_index'),
+  bootstrap_breadcrumb('Delete'),
+) }}
+{% endblock %}

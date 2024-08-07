@@ -36,7 +36,7 @@ class AlertController extends AbstractController
         $qb = $this->alertRepository->createQueryBuilder('a');
         $qb->orderBy('a.id', 'desc');
 
-        return $this->render('@backend/alert/alert_index.html.twig', [
+        return $this->render('@OHMediaAlert/alert_index.html.twig', [
             'pagination' => $paginator->paginate($qb, 20),
             'new_alert' => $newAlert,
             'attributes' => $this->getAttributes(),
@@ -72,7 +72,7 @@ class AlertController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
-        return $this->render('@backend/alert/alert_create.html.twig', [
+        return $this->render('@OHMediaAlert/alert_create.html.twig', [
             'form' => $form->createView(),
             'alert' => $alert,
         ]);
@@ -107,7 +107,7 @@ class AlertController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
-        return $this->render('@backend/alert/alert_edit.html.twig', [
+        return $this->render('@OHMediaAlert/alert_edit.html.twig', [
             'form' => $form->createView(),
             'alert' => $alert,
         ]);
@@ -142,7 +142,7 @@ class AlertController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
-        return $this->render('@backend/alert/alert_delete.html.twig', [
+        return $this->render('@OHMediaAlert/alert_delete.html.twig', [
             'form' => $form->createView(),
             'alert' => $alert,
         ]);
