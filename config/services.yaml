@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    OHMedia\AlertBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/Entity/'
+            - '../src/OHMediaAlertBundle.php'
