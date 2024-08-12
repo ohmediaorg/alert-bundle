@@ -36,7 +36,7 @@ class AlertType extends AbstractType
             'required' => false,
         ]);
 
-        $builder->add('dismissable', ChoiceType::class, [
+        $builder->add('dismissible', ChoiceType::class, [
             'label' => 'Can this alert be dismissed?',
             'choices' => [
                 'Yes' => true,
@@ -48,7 +48,7 @@ class AlertType extends AbstractType
             ],
         ]);
 
-        $builder->add('dismissable_days', IntegerType::class, [
+        $builder->add('dismissible_days', IntegerType::class, [
             'label' => 'After how many days should the alert be shown again?',
             'attr' => [
                 'min' => 1,

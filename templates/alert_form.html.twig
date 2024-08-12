@@ -21,24 +21,24 @@
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.querySelector('form[name="{{ form.vars.full_name }}"]');
 
-  const dismissableNodeList = form.elements['{{ form.dismissable.vars.full_name }}'];
+  const dismissibleNodeList = form.elements['{{ form.dismissible.vars.full_name }}'];
 
-  const dismissableDays = form.elements['{{ form.dismissable_days.vars.full_name }}'];
+  const dismissibleDays = form.elements['{{ form.dismissible_days.vars.full_name }}'];
 
-  function toggleDismissableDays() {
-    const show = '1' === dismissableNodeList.value;
+  function toggleDismissibleDays() {
+    const show = '1' === dismissibleNodeList.value;
 
-    dismissableDays.parentNode.style.display = show ? '' : 'none';
-    dismissableDays.required = show;
+    dismissibleDays.parentNode.style.display = show ? '' : 'none';
+    dismissibleDays.required = show;
   }
 
-  dismissableNodeList.forEach((radio) => {
+  dismissibleNodeList.forEach((radio) => {
     radio.addEventListener('change', function() {
-      toggleDismissableDays();
+      toggleDismissibleDays();
     });
   });
 
-  toggleDismissableDays();
+  toggleDismissibleDays();
 });
 </script>
 {% endblock %}

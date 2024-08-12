@@ -34,11 +34,11 @@ class Alert
     private ?\DateTimeImmutable $ends_at = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $dismissable = null;
+    private ?bool $dismissible = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true, options: ['unsigned' => true])]
     #[Assert\GreaterThan(0)]
-    private ?int $dismissable_days = 1;
+    private ?int $dismissible_days = 1;
 
     public function __toString(): string
     {
@@ -98,26 +98,26 @@ class Alert
         return $this;
     }
 
-    public function isDismissable(): ?bool
+    public function isDismissible(): ?bool
     {
-        return $this->dismissable;
+        return $this->dismissible;
     }
 
-    public function setDismissable(?bool $dismissable): static
+    public function setDismissible(?bool $dismissible): static
     {
-        $this->dismissable = $dismissable;
+        $this->dismissible = $dismissible;
 
         return $this;
     }
 
-    public function getDismissableDays(): ?int
+    public function getDismissibleDays(): ?int
     {
-        return $this->dismissable_days;
+        return $this->dismissible_days;
     }
 
-    public function setDismissableDays(?int $dismissable_days): static
+    public function setDismissibleDays(?int $dismissible_days): static
     {
-        $this->dismissable_days = $dismissable_days;
+        $this->dismissible_days = $dismissible_days;
 
         return $this;
     }
