@@ -16,10 +16,10 @@ class AlertBarExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('alert_bar', [$this, 'alertBar', [
+            new TwigFunction('alert_bar', [$this, 'alertBar'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true,
-            ]]),
+            ]),
         ];
     }
 
