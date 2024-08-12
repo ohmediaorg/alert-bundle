@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use OHMedia\AlertBundle\Repository\AlertRepository;
 use OHMedia\UtilityBundle\Entity\BlameableEntityTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AlertRepository::class)]
 class Alert
@@ -18,16 +19,26 @@ class Alert
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $content = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $starts_at = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThan(propertyPath: 'starts_at')]
     private ?\DateTimeImmutable $ends_at = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $dismissable = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true, options: ['unsigned' => true])]
+    #[Assert\GreaterThan(0)]
+    private ?int $dismissable_days = null;
 
     public function __toString(): string
     {
@@ -83,6 +94,30 @@ class Alert
     public function setEndsAt(?\DateTimeImmutable $ends_at): static
     {
         $this->ends_at = $ends_at;
+
+        return $this;
+    }
+
+    public function isDismissable(): ?bool
+    {
+        return $this->dismissable;
+    }
+
+    public function setDismissable(?bool $dismissable): static
+    {
+        $this->dismissable = $dismissable;
+
+        return $this;
+    }
+
+    public function getDismissableDays(): ?int
+    {
+        return $this->dismissable_days;
+    }
+
+    public function setDismissableDays(?int $dismissable_days): static
+    {
+        $this->dismissable_days = $dismissable_days;
 
         return $this;
     }

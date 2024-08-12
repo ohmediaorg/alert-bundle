@@ -6,6 +6,8 @@ use OHMedia\AlertBundle\Entity\Alert;
 use OHMedia\TimezoneBundle\Form\Type\DateTimeType;
 use OHMedia\WysiwygBundle\Form\Type\WysiwygType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,6 +34,22 @@ class AlertType extends AbstractType
             'help' => 'If both Start and End are populated, the Alert will be active until this time is reached.',
             'widget' => 'single_text',
             'required' => false,
+        ]);
+
+        $builder->add('dismissable', ChoiceType::class, [
+            'label' => 'Can this alert be dismissed?',
+            'choices' => [
+                'Yes' => true,
+                'No' => false,
+            ],
+        ]);
+
+        $builder->add('dismissable_days', IntegerType::class, [
+            'label' => 'How many days after dismissal should the alert reappear?',
+            'attr' => [
+                'min' => 1,
+                'step' => 1,
+            ],
         ]);
 
         $builder->add('content', WysiwygType::class);
