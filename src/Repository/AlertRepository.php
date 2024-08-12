@@ -46,7 +46,7 @@ class AlertRepository extends ServiceEntityRepository implements WysiwygReposito
             ->andWhere('a.starts_at < :now')
             ->andWhere('(a.ends_at IS NULL OR a.ends_at > :now)')
             ->setParameter('now', DateTimeUtil::getDateTimeUtc())
-            ->orderBy('a.starts_at', 'asc')
+            ->orderBy('a.starts_at', 'desc')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
