@@ -31,7 +31,7 @@ class Alert
     private ?\DateTimeImmutable $starts_at = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\GreaterThan(propertyPath: 'starts_at')]
+    #[Assert\GreaterThan(propertyPath: 'starts_at', message: 'The End date must be after the Start date.')]
     private ?\DateTimeImmutable $ends_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -43,7 +43,7 @@ class Alert
 
     public function __toString(): string
     {
-        return 'Alert #'.$this->id;
+        return (string) $this->name;
     }
 
     public function getId(): ?int

@@ -35,7 +35,10 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Alert</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Starts</th>
+            <th>Ends</th>
             <th>Last Updated</th>
             <th></th>
           </tr>
@@ -44,6 +47,21 @@
           {% for alert in pagination.results %}
           <tr>
             <td>{{ alert }}</td>
+            <td>
+              {% if active_alert == alert %}
+                {{ bootstrap_badge_primary('Active') }}
+              {% elseif alert.isDraft %}
+                {{ bootstrap_badge_secondary('Draft') }}
+              {% elseif alert.isScheduled %}
+                {{ bootstrap_badge_warning('Scheduled') }}
+              {% elseif alert.isPublished %}
+                {{ bootstrap_badge_success('Published') }}
+              {% elseif alert.isExpired %}
+                {{ bootstrap_badge_danger('Expired') }}
+              {% endif %}
+            </td>
+            <td>{{ alert.startsAt ? alert.startsAt|datetime : '' }}</td>
+            <td>{{ alert.endsAt ? alert.endsAt|datetime : '' }}</td>
             <td>{{ alert.updatedAt|datetime }}</td>
             <td>
               {% if is_granted(attributes.edit, alert) %}

@@ -34,12 +34,13 @@ class AlertController extends AbstractController
         );
 
         $qb = $this->alertRepository->createQueryBuilder('a');
-        $qb->orderBy('a.id', 'desc');
+        $qb->orderBy('a.starts_at', 'desc');
 
         return $this->render('@OHMediaAlert/alert_index.html.twig', [
             'pagination' => $paginator->paginate($qb, 20),
             'new_alert' => $newAlert,
             'attributes' => $this->getAttributes(),
+            'active_alert' => $this->alertRepository->getActive(),
         ]);
     }
 
