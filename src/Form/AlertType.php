@@ -42,13 +42,18 @@ class AlertType extends AbstractType
                 'Yes' => true,
                 'No' => false,
             ],
+            'expanded' => true,
+            'row_attr' => [
+                'class' => 'fieldset-nostyle mb-3',
+            ],
         ]);
 
         $builder->add('dismissable_days', IntegerType::class, [
-            'label' => 'How many days after dismissal should the alert reappear?',
+            'label' => 'After how many days should the alert be shown again?',
             'attr' => [
                 'min' => 1,
                 'step' => 1,
+                'style' => 'width:auto',
             ],
         ]);
 

@@ -1,0 +1,44 @@
+{% extends '@OHMediaBackend/base.html.twig' %}
+
+{% block meta_title %}{{ form_title }}{% endblock %}
+
+{% block main %}
+<div class="row">
+  <div class="col-xl-8">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title h3">{{ form_title }}</h1>
+
+        {{ form(form, {id: 'alert-form'}) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form[name="{{ form.vars.full_name }}"]');
+
+  const dismissableNodeList = form.elements['{{ form.dismissable.vars.full_name }}'];
+
+  const dismissableDays = form.elements['{{ form.dismissable_days.vars.full_name }}'];
+
+  function toggleDismissableDays() {
+    const show = '1' === dismissableNodeList.value;
+
+    dismissableDays.parentNode.style.display = show ? '' : 'none';
+    dismissableDays.required = show;
+  }
+
+  dismissableNodeList.forEach((radio) => {
+    radio.addEventListener('change', function() {
+      toggleDismissableDays();
+    });
+  });
+
+  toggleDismissableDays();
+});
+</script>
+{% endblock %}

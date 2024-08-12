@@ -38,7 +38,7 @@ class Alert
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true, options: ['unsigned' => true])]
     #[Assert\GreaterThan(0)]
-    private ?int $dismissable_days = null;
+    private ?int $dismissable_days = 1;
 
     public function __toString(): string
     {
