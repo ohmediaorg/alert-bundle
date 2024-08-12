@@ -7,7 +7,6 @@ use OHMedia\AlertBundle\Form\AlertType;
 use OHMedia\AlertBundle\Repository\AlertRepository;
 use OHMedia\AlertBundle\Security\Voter\AlertVoter;
 use OHMedia\BackendBundle\Routing\Attribute\Admin;
-use OHMedia\BootstrapBundle\Service\Paginator;
 use OHMedia\UtilityBundle\Form\DeleteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,7 +22,7 @@ class AlertController extends AbstractController
     }
 
     #[Route('/alerts', name: 'alert_index', methods: ['GET'])]
-    public function index(Paginator $paginator): Response
+    public function index(): Response
     {
         $newAlert = new Alert();
 
@@ -33,11 +32,13 @@ class AlertController extends AbstractController
             'You cannot access the list of alerts.'
         );
 
-        $qb = $this->alertRepository->createQueryBuilder('a');
-        $qb->orderBy('a.starts_at', 'desc');
+        $alerts = $this->alertRepository->createQueryBuilder('a')
+            ->orderBy('a.starts_at', 'desc')
+            ->getQuery()
+            ->getResult();
 
         return $this->render('@OHMediaAlert/alert_index.html.twig', [
-            'pagination' => $paginator->paginate($qb, 20),
+            'alerts' => $alerts,
             'new_alert' => $newAlert,
             'attributes' => $this->getAttributes(),
             'active_alert' => $this->alertRepository->getActive(),
