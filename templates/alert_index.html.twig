@@ -50,7 +50,9 @@
             <td>
               {% if active_alert == alert %}
                 {{ bootstrap_badge_primary('Active') }}
-              {% elseif alert.isDraft %}
+              {% endif %}
+
+              {% if alert.isDraft %}
                 {{ bootstrap_badge_secondary('Draft') }}
               {% elseif alert.isScheduled %}
                 {{ bootstrap_badge_warning('Scheduled') }}
