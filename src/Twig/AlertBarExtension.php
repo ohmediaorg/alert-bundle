@@ -31,7 +31,7 @@ class AlertBarExtension extends AbstractExtension
             return '';
         }
 
-        if (isset($_COOKIE[$alert->getCookieName()])) {
+        if ($alert->isDismissible() && isset($_COOKIE[$alert->getCookieName()])) {
             return '';
         }
 
