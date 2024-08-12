@@ -22,11 +22,7 @@ Run `php bin/console make:migration` then run the subsequent migration.
 
 # Frontend
 
-Create `templates/bundles/OHMediaAlertBundle/alert.html.twig` and
-`templates/bundles/OHMediaAlertBundle/alerts.html.twig`, which are
-expected for rendering the WYSIWYG Twig functions `{{ alert(id) }}` and
-`{{ alerts() }}`.
+The frontend relies on Bootstrap's Alert component (Sass and JS). The output
+utilizes the `.alert` class with an `.alert-bar` class for any customizations.
 
-The `Alert` entity has required fields `author` and `quote`, and optional
-fields `affiliation` and `image`. The `image` is an `OHMedia\FileBundle\Entity\File`
-and should be rendered with the `image_tag` Twig function.
+Just place `{{ alert_bar() }}` where needed.
