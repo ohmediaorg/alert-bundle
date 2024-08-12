@@ -31,6 +31,10 @@ class AlertBarExtension extends AbstractExtension
             return '';
         }
 
+        if (isset($_COOKIE[$alert->getCookieName()])) {
+            return '';
+        }
+
         return $twig->render('@OHMediaAlert/alert_bar.html.twig', [
             'alert' => $alert,
         ]);
