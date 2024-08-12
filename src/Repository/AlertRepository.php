@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use OHMedia\AlertBundle\Entity\Alert;
 use OHMedia\TimezoneBundle\Util\DateTimeUtil;
+use OHMedia\WysiwygBundle\Repository\WysiwygRepositoryInterface;
 
 /**
  * @method Alert|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,7 +14,7 @@ use OHMedia\TimezoneBundle\Util\DateTimeUtil;
  * @method Alert[]    findAll()
  * @method Alert[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AlertRepository extends ServiceEntityRepository
+class AlertRepository extends ServiceEntityRepository implements WysiwygRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -49,5 +50,23 @@ class AlertRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function containsWysiwygShortcodes(string ...$shortcodes): bool
+    {
+        foreach ($shortcodes as $shortcode) {
+            $count = $this->createQueryBuilder('a')
+                ->select('COUNT(a.id)')
+                ->where('a.content LIKE :shortcode')
+                ->setParameter('shortcode', '%'.$shortcode.'%')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($count > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
