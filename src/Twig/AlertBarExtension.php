@@ -25,7 +25,7 @@ class AlertBarExtension extends AbstractExtension
 
     public function alertBar(Environment $twig): string
     {
-        $alert = $this->alertRepository->getActiveAlert();
+        $alert = $this->alertRepository->getActive();
 
         if (!$alert) {
             return '';
