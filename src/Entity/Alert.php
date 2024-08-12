@@ -5,6 +5,7 @@ namespace OHMedia\AlertBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use OHMedia\AlertBundle\Repository\AlertRepository;
+use OHMedia\TimezoneBundle\Util\DateTimeUtil;
 use OHMedia\UtilityBundle\Entity\BlameableEntityTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -138,5 +139,33 @@ class Alert
         ];
 
         return implode(';', $cookieParts);
+    }
+
+    public function isDraft(): bool
+    {
+        return !$this->starts_at;
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->starts_at && DateTimeUtil::isFuture($this->starts_at);
+    }
+
+    public function isPublished(): bool
+    {
+        if (!$this->starts_at || DateTimeUtil::isFuture($this->starts_at)) {
+            return false;
+        }
+
+        return !$this->ends_at || DateTimeUtil::isFuture($this->ends_at);
+    }
+
+    public function isExpired(): bool
+    {
+        if (!$this->starts_at || !$this->ends_at) {
+            return false;
+        }
+
+        return DateTimeUtil::isPast($this->ends_at);
     }
 }
