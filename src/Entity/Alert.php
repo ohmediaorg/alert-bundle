@@ -121,4 +121,22 @@ class Alert
 
         return $this;
     }
+
+    public function getCookieName()
+    {
+        return 'alert_bar_'.$this->id;
+    }
+
+    public function getCookieString()
+    {
+        $maxAge = $this->dismissible_days * 86400;
+
+        $cookieParts = [
+            $this->getCookieName().'=1',
+            'max-age='.$maxAge,
+            'path=/',
+        ];
+
+        return implode(';', $cookieParts);
+    }
 }
