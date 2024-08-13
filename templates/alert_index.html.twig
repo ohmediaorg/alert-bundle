@@ -82,6 +82,11 @@
           </tr>
           {% endfor %}
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="100%">The {{ bootstrap_badge_primary('Active') }} alert is a {{ bootstrap_badge_success('Published') }} alert with the most-recent start date.</td>
+          </tr>
+        </tfoot>
       </table>
     {% else %}
       <p>
