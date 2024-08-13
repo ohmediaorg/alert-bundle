@@ -139,7 +139,7 @@ class AlertController extends AbstractController
 
                 $message = sprintf(
                     'The current active alert started on %s and will expire on %s.',
-                    $actstartsAt->format('M j, Y @ g:ia'),
+                    $startsAt->format('M j, Y @ g:ia'),
                     $endsAt->format('M j, Y @ g:ia'),
                 );
             } else {
