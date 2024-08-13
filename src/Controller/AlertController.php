@@ -7,6 +7,7 @@ use OHMedia\AlertBundle\Form\AlertType;
 use OHMedia\AlertBundle\Repository\AlertRepository;
 use OHMedia\AlertBundle\Security\Voter\AlertVoter;
 use OHMedia\BackendBundle\Routing\Attribute\Admin;
+use OHMedia\TimezoneBundle\Service\Timezone;
 use OHMedia\UtilityBundle\Form\DeleteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,8 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Admin]
 class AlertController extends AbstractController
 {
-    public function __construct(private AlertRepository $alertRepository)
-    {
+    public function __construct(
+        private AlertRepository $alertRepository,
+        private Timezone $timezone,
+    ) {
     }
 
     #[Route('/alerts', name: 'alert_index', methods: ['GET'])]
@@ -74,6 +77,8 @@ class AlertController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
+        $this->setActiveAlertFlash($alert);
+
         return $this->render('@OHMediaAlert/alert_create.html.twig', [
             'form' => $form->createView(),
             'alert' => $alert,
@@ -109,10 +114,45 @@ class AlertController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
+        $this->setActiveAlertFlash($alert);
+
         return $this->render('@OHMediaAlert/alert_edit.html.twig', [
             'form' => $form->createView(),
             'alert' => $alert,
         ]);
+    }
+
+    private function setActiveAlertFlash(Alert $alert)
+    {
+        $activeAlert = $this->alertRepository->getActive();
+
+        $message = null;
+
+        if ($activeAlert === $alert) {
+            $this->addFlash('info', 'This is the current active alert.');
+        } elseif ($activeAlert) {
+            $timezone = new \DateTimeZone($this->timezone->get());
+            $startsAt = $activeAlert->getStartsAt()->setTimezone($timezone);
+
+            if ($activeAlert->getEndsAt()) {
+                $endsAt = $activeAlert->getEndsAt()->setTimezone($timezone);
+
+                $message = sprintf(
+                    'The current active alert started on %s and will expire on %s.',
+                    $actstartsAt->format('M j, Y @ g:ia'),
+                    $endsAt->format('M j, Y @ g:ia'),
+                );
+            } else {
+                $message = sprintf(
+                    'The current active alert started on %s and is not set to expire.',
+                    $startsAt->format('M j, Y @ g:ia'),
+                );
+            }
+        }
+
+        if ($message) {
+            $this->addFlash('info', $message);
+        }
     }
 
     #[Route('/alert/{id}/delete', name: 'alert_delete', methods: ['GET', 'POST'])]
@@ -142,6 +182,12 @@ class AlertController extends AbstractController
             }
 
             $this->addFlash('error', 'There are some errors in the form below.');
+        }
+
+        $activeAlert = $this->alertRepository->getActive();
+
+        if ($alert === $activeAlert) {
+            $this->addFlash('warning', 'This is the current active alert.');
         }
 
         return $this->render('@OHMediaAlert/alert_delete.html.twig', [
