@@ -24,14 +24,14 @@ class AlertType extends AbstractType
 
         $builder->add('starts_at', DateTimeType::class, [
             'label' => 'Start',
-            'help' => 'This value must be populated and in the past for the Alert to be considered active.',
+            'help' => 'This value must be populated and in the past for the Alert to be considered published.',
             'widget' => 'single_text',
             'required' => false,
         ]);
 
         $builder->add('ends_at', DateTimeType::class, [
             'label' => 'End',
-            'help' => 'If both Start and End are populated, the Alert will be active until this time is reached.',
+            'help' => 'If both Start and End are populated, the Alert will be published until this time is reached.',
             'widget' => 'single_text',
             'required' => false,
         ]);
