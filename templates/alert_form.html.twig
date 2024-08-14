@@ -23,6 +23,17 @@
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('alert-form');
 
+  const startsAt = document.getElementById('{{ form.starts_at.vars.id }}');
+  const endsAt = document.getElementById('{{ form.ends_at.vars.id }}');
+
+  function setEndsAtMin() {
+    endsAt.min = startsAt.value;
+  }
+
+  startsAt.addEventListener('change', setEndsAtMin);
+
+  setEndsAtMin();
+
   const dismissibleNodeList = form.elements['{{ form.dismissible.vars.full_name }}'];
 
   const dismissibleDays = form.elements['{{ form.dismissible_days.vars.full_name }}'];
