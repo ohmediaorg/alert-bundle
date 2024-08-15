@@ -3,6 +3,8 @@
 namespace OHMedia\AlertBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 use OHMedia\AlertBundle\Entity\Alert;
 use OHMedia\TimezoneBundle\Util\DateTimeUtil;
@@ -54,19 +56,19 @@ class AlertRepository extends ServiceEntityRepository implements WysiwygReposito
 
     public function containsWysiwygShortcodes(string ...$shortcodes): bool
     {
-        foreach ($shortcodes as $shortcode) {
-            $count = $this->createQueryBuilder('a')
-                ->select('COUNT(a.id)')
-                ->where('a.content LIKE :shortcode')
-                ->setParameter('shortcode', '%'.$shortcode.'%')
-                ->getQuery()
-                ->getSingleScalarResult();
+        $ors = [];
+        $params = new ArrayCollection();
 
-            if ($count > 0) {
-                return true;
-            }
+        foreach ($shortcodes as $i => $shortcode) {
+            $ors[] = 'a.content LIKE :shortcode_'.$i;
+            $params[] = new Parameter('shortcode_'.$i, '%'.$shortcode.'%');
         }
 
-        return false;
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->where(implode(' OR ', $ors))
+            ->setParameters($params)
+            ->getQuery()
+            ->getSingleScalarResult() > 0;
     }
 }
