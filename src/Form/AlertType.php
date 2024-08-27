@@ -57,7 +57,9 @@ class AlertType extends AbstractType
             ],
         ]);
 
-        $builder->add('content', WysiwygType::class);
+        $builder->add('content', WysiwygType::class, [
+            'allow_shortcodes' => false,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
