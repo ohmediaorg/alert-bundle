@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const alert = document.getElementById('alert-bar-{{ id }}');
 
   alert.addEventListener('close.bs.alert', () => {
-    document.cookie = {{ alert.cookieString|json_encode|raw }};
+    document.cookie = {{ alert.cookieString|js }};
   });
 });
 </script>
