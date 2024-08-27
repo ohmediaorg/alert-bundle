@@ -1,7 +1,7 @@
 {% set id = uniq() %}
 
 <div id="alert-bar-{{ id }}" class="alert alert-bar{% if alert.dismissible %} alert-dismissible fade show{% endif %}" role="alert">
-  <div class="alert-bar-content">{{ wysiwyg(alert.content, null, false) }}</div>
+  <div class="alert-bar-content">{{ wysiwyg(alert.content) }}</div>
   {% if alert.dismissible %}
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   {% endif %}
