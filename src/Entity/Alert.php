@@ -21,6 +21,7 @@ class Alert
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
