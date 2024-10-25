@@ -9,6 +9,7 @@ use OHMedia\AlertBundle\Security\Voter\AlertVoter;
 use OHMedia\BackendBundle\Routing\Attribute\Admin;
 use OHMedia\TimezoneBundle\Service\Timezone;
 use OHMedia\UtilityBundle\Form\DeleteType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +89,7 @@ class AlertController extends AbstractController
     #[Route('/alert/{id}/edit', name: 'alert_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
-        Alert $alert,
+        #[MapEntity(id: 'id')] Alert $alert,
     ): Response {
         $this->denyAccessUnlessGranted(
             AlertVoter::EDIT,
@@ -158,7 +159,7 @@ class AlertController extends AbstractController
     #[Route('/alert/{id}/delete', name: 'alert_delete', methods: ['GET', 'POST'])]
     public function delete(
         Request $request,
-        Alert $alert,
+        #[MapEntity(id: 'id')] Alert $alert,
     ): Response {
         $this->denyAccessUnlessGranted(
             AlertVoter::DELETE,
