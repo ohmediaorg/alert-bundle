@@ -62,7 +62,7 @@ class AlertController extends AbstractController
 
         $form = $this->createForm(AlertType::class, $alert);
 
-        $form->add('submit', SubmitType::class);
+        $form->add('save', SubmitType::class);
 
         $form->handleRequest($request);
 
@@ -99,7 +99,7 @@ class AlertController extends AbstractController
 
         $form = $this->createForm(AlertType::class, $alert);
 
-        $form->add('submit', SubmitType::class);
+        $form->add('save', SubmitType::class);
 
         $form->handleRequest($request);
 
