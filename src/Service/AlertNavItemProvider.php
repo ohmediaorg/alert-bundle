@@ -14,7 +14,7 @@ class AlertNavItemProvider extends AbstractNavItemProvider
     {
         if ($this->isGranted(AlertVoter::INDEX, new Alert())) {
             return (new NavLink('Alerts', 'alert_index'))
-                ->setIcon('exclamation-triangle-fill');
+                ->setIcon('exclamation-triangle');
         }
 
         return null;
