@@ -127,11 +127,13 @@ class AlertController extends AbstractController
 
     private function redirectForm(Alert $alert, FormInterface $form): Response
     {
-        if ($form->get('save')->get('keep_editing')->isClicked()) {
+        $clickedButtonName = $form->getClickedButton()->getName() ?? null;
+
+        if ('keep_editing' === $clickedButtonName) {
             return $this->redirectToRoute('alert_edit', [
                 'id' => $alert->getId(),
             ]);
-        } elseif ($form->get('save')->get('add_another')->isClicked()) {
+        } elseif ('add_another' === $clickedButtonName) {
             return $this->redirectToRoute('alert_create');
         } else {
             return $this->redirectToRoute('alert_index');
