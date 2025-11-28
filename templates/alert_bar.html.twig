@@ -8,13 +8,13 @@
 </div>
 
 {% if alert.dismissible %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const alert = document.getElementById('alert-bar-{{ id }}');
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const alert = document.getElementById('alert-bar-{{ id }}');
 
-  alert.addEventListener('close.bs.alert', () => {
-    document.cookie = {{ alert.cookieString|js }};
+    alert.addEventListener('close.bs.alert', () => {
+      document.cookie = {{ alert.cookieString|js }};
+    });
   });
-});
-</script>
+  </script>
 {% endif %}

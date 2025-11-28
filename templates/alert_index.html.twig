@@ -3,9 +3,9 @@
 {% block meta_title %}Alerts{% endblock %}
 
 {% block breadcrumbs %}
-{{ bootstrap_breadcrumbs(
-  bootstrap_breadcrumb(bootstrap_icon('exclamation-triangle') ~ ' Alerts', 'alert_index'),
-) }}
+  {{ bootstrap_breadcrumbs(
+    bootstrap_breadcrumb(bootstrap_icon('exclamation-triangle') ~ ' Alerts', 'alert_index'),
+  ) }}
 {% endblock %}
 
 {% set can_create_alert = is_granted(attributes.create, new_alert) %}
@@ -13,57 +13,59 @@
 {% set create_alert_href = path('alert_create') %}
 
 {% block actions %}
-{% if can_create_alert %}
-<a href="{{ create_alert_href }}" class="btn btn-sm btn-primary">
-  {{ bootstrap_icon('plus-lg') }} Add Alert</a>
-{% endif %}
+  {% if can_create_alert %}
+    <a href="{{ create_alert_href }}" class="btn btn-sm btn-primary">
+      {{ bootstrap_icon('plus-lg') }}
+      Add Alert
+    </a>
+  {% endif %}
 {% endblock %}
 
 {% block main %}
-{% set alert_count = alerts|length %}
+  {% set alert_count = alerts|length %}
 
-<div class="card">
-  <div class="card-body">
-    <div class="card-title card-title-with-count">
-      <h1 class="card-title-heading">Alerts</h1>
-      <div class="card-title-count">
-        {{ bootstrap_badge_primary(alert_count) }}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title card-title-with-count">
+        <h1 class="card-title-heading">Alerts</h1>
+        <div class="card-title-count">
+          {{ bootstrap_badge_primary(alert_count) }}
+        </div>
       </div>
-    </div>
 
-    {% if alert_count %}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Starts</th>
-            <th>Ends</th>
-            <th>Last Updated</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for alert in alerts %}
-            {{ _self.table_row(alert, attributes, active_alert) }}
-          {% endfor %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="100%">The {{ bootstrap_badge_primary('Active') }} alert is a {{ bootstrap_badge_success('Published') }} alert with the most-recent start date.</td>
-          </tr>
-        </tfoot>
-      </table>
-    {% else %}
-      <p>
-        No alerts found.
-        {% if can_create_alert %}
-        <a href="{{ create_alert_href }}">Click here to add an alert.</a>
-        {% endif %}
-      </p>
-    {% endif %}
+      {% if alert_count %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Starts</th>
+              <th>Ends</th>
+              <th>Last Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for alert in alerts %}
+              {{ _self.table_row(alert, attributes, active_alert) }}
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="100%">The {{ bootstrap_badge_primary('Active') }} alert is a {{ bootstrap_badge_success('Published') }} alert with the most-recent start date.</td>
+            </tr>
+          </tfoot>
+        </table>
+      {% else %}
+        <p>
+          No alerts found.
+          {% if can_create_alert %}
+          <a href="{{ create_alert_href }}">Click here to add an alert.</a>
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
   </div>
-</div>
 {% endblock %}
 
 {% macro table_row(alert, attributes, active_alert) %}

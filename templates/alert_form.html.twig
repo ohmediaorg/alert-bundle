@@ -3,55 +3,55 @@
 {% block meta_title %}{{ form_title }}{% endblock %}
 
 {% block main %}
-<div class="row">
-  <div class="col-xl-8">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="card-title">{{ form_title }}</h1>
+  <div class="row">
+    <div class="col-xl-8">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">{{ form_title }}</h1>
 
-        {{ form(form, {
-          attr: {id: 'alert-form'}
-        }) }}
+          {{ form(form, {
+            attr: {id: 'alert-form'}
+          }) }}
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('alert-form');
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('alert-form');
 
-  const startsAt = document.getElementById('{{ form.starts_at.vars.id }}');
-  const endsAt = document.getElementById('{{ form.ends_at.vars.id }}');
+    const startsAt = document.getElementById('{{ form.starts_at.vars.id }}');
+    const endsAt = document.getElementById('{{ form.ends_at.vars.id }}');
 
-  function setEndsAtMin() {
-    endsAt.min = startsAt.value;
-  }
+    function setEndsAtMin() {
+      endsAt.min = startsAt.value;
+    }
 
-  startsAt.addEventListener('change', setEndsAtMin);
+    startsAt.addEventListener('change', setEndsAtMin);
 
-  setEndsAtMin();
+    setEndsAtMin();
 
-  const dismissibleNodeList = form.elements['{{ form.dismissible.vars.full_name }}'];
+    const dismissibleNodeList = form.elements['{{ form.dismissible.vars.full_name }}'];
 
-  const dismissibleDays = form.elements['{{ form.dismissible_days.vars.full_name }}'];
+    const dismissibleDays = form.elements['{{ form.dismissible_days.vars.full_name }}'];
 
-  function toggleDismissibleDays() {
-    const show = '1' === dismissibleNodeList.value;
+    function toggleDismissibleDays() {
+      const show = '1' === dismissibleNodeList.value;
 
-    dismissibleDays.parentNode.style.display = show ? '' : 'none';
-    dismissibleDays.required = show;
-  }
+      dismissibleDays.parentNode.style.display = show ? '' : 'none';
+      dismissibleDays.required = show;
+    }
 
-  dismissibleNodeList.forEach((radio) => {
-    radio.addEventListener('change', function() {
-      toggleDismissibleDays();
+    dismissibleNodeList.forEach((radio) => {
+      radio.addEventListener('change', function() {
+        toggleDismissibleDays();
+      });
     });
-  });
 
-  toggleDismissibleDays();
-});
-</script>
+    toggleDismissibleDays();
+  });
+  </script>
 {% endblock %}
