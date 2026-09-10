@@ -39,7 +39,7 @@ class AlertController extends AbstractController
         );
 
         $alerts = $this->alertRepository->createQueryBuilder('a')
-            ->orderBy('a.starts_at', 'desc')
+            ->orderBy('a.starts_at', \SortDirection::Descending)
             ->getQuery()
             ->getResult();
 
@@ -135,9 +135,9 @@ class AlertController extends AbstractController
             ]);
         } elseif ('add_another' === $clickedButtonName) {
             return $this->redirectToRoute('alert_create');
-        } else {
-            return $this->redirectToRoute('alert_index');
         }
+
+        return $this->redirectToRoute('alert_index');
     }
 
     private function setActiveAlertFlash(Alert $alert)
